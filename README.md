@@ -96,4 +96,4 @@ curl --location --request POST '0.0.0.0:8000/home' \
 
 * [ ] Unit tests duh...
 * [ ] Lack of comments
-* [ ] Config yang dari environment variables ganti pake config file
+* [ ] Moving environment variables to config file
