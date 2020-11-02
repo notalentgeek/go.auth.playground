@@ -1,0 +1,38 @@
+version: "3.3"
+services:
+  go-auth-playground-postgresql:
+    container_name: go-auth-playground-postgresql
+    image: postgres:13.0
+    restart: always
+    volumes:
+      - ./postgresql/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=gorm
+      - POSTGRES_PASSWORD=gorm
+      - POSTGRES_USER=gorm
+    ports:
+      - 5432:5432
+
+  go-auth-playground-adminer:
+    container_name: go-auth-playground-adminer
+    image: adminer:4.7.7
+    restart: always
+    depends_on:
+      - go-auth-playground-postgresql
+    ports:
+      - 8080:8080
+
+  go-auth-playground:
+    container_name: go-auth-playground
+    build: .
+    restart: always
+    environment:
+      - SERVICE_POSTGRES_DB=gorm
+      - SERVICE_POSTGRES_PASSWORD=gorm
+      - SERVICE_POSTGRES_USER=gorm
+      - SERVICE_PGHOST=go-auth-playground-postgresql
+      - SERVICE_SECRET=mysecret
+    depends_on:
+    - go-auth-playground-postgresql
+    ports:
+    - 8000:8000
